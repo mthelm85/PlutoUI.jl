@@ -7,6 +7,7 @@ struct Slider
     range::AbstractRange
     default::Number
     show_value::Bool
+    reverse::Bool
 end
 
 """A Slider on the given `range`.
@@ -19,10 +20,11 @@ end
 `@bind x Slider(1:10; default=8, show_value=true)`
 
 """
-Slider(range::AbstractRange; default=missing, show_value=false) = Slider(range, (default === missing) ? first(range) : default, show_value)
+Slider(range::AbstractRange; default=missing, show_value=false, reverse=false) = Slider(range, (default === missing) ? first(range) : default, show_value, reverse)
 
 function show(io::IO, ::MIME"text/html", slider::Slider)
     print(io, """<input 
+        class="slider"
         type="range" 
         min="$(first(slider.range))" 
         step="$(step(slider.range))" 
@@ -33,6 +35,14 @@ function show(io::IO, ::MIME"text/html", slider::Slider)
     
     if slider.show_value
         print(io, """<output>$(slider.default)</output>""")
+    end
+
+    if slider.reverse
+        withtag(io, :style) do
+            print(io, """
+                .slider {direction:rtl;}
+            """)
+        end
     end
 end
 
