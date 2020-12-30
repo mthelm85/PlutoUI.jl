@@ -9,6 +9,8 @@ include("./Builtins.jl")
 include("./Clock.jl")
 include("./Resource.jl")
 include("./Terminal.jl")
+include("./TableOfContents.jl")
+include("./RangeSlider.jl")
 include("./DisplayTricks.jl")
 
 end
